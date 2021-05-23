@@ -1,3 +1,4 @@
+import 'package:calc_training/screens/test_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,16 +8,45 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<DropdownMenuItem<int>> _menuItem = List();
+  List<DropdownMenuItem<int>> _menuItem = [];
+  int _numberOfQuestions = 0;
 
   @override
   void initState() {
     super.initState();
-   setMenuItems();
+    setMenuItems();
+    _numberOfQuestions = _menuItem[0].value;
+    //_numberOfQuestions = _menuItem[0].value!;
   }
 
   void setMenuItems() {
-    _menu
+    //TODO 明日はここから
+    _menuItem.add(DropdownMenuItem(
+      value: 10,
+      child: Text(10.toString()),
+    ));
+    _menuItem.add(DropdownMenuItem(
+      value: 20,
+      child: Text(20.toString()),
+    ));
+    _menuItem.add(DropdownMenuItem(
+      value: 30,
+      child: Text(30.toString()),
+    ));
+
+    // _menuItem
+    //   ..add(DropdownMenuItem(
+    //     value: 10,
+    //     child: Text(10.toString()),
+    //   ))
+    //   ..add(DropdownMenuItem(
+    //     value: 20,
+    //     child: Text(20.toString()),
+    //   ))
+    //   ..add(DropdownMenuItem(
+    //     value: 30,
+    //     child: Text(30.toString()),
+    //   ));
   }
 
   @override
@@ -34,19 +64,20 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children: <Widget>[
                 Image.asset("assets/images/image_title.png"),
-                SizedBox(height: 15.0,),
-
-                Text(
-                    "問題数を選択して「スタート」ボタンを押してください。",
-                    style: TextStyle(fontSize: 13.0),
+                SizedBox(
+                  height: 15.0,
                 ),
-               SizedBox(height: 50.0,),
+                Text(
+                  "問題数を選択して「スタート」ボタンを押してください。",
+                  style: TextStyle(fontSize: 13.0),
+                ),
+                SizedBox(
+                  height: 50.0,
+                ),
                 DropdownButton(
-                items: [
-                  DropdownMenuItem(child: null),
-                  DropdownMenuItem(child: null),
-                  DropdownMenuItem(child: null),
-                ],
+                  items: _menuItem,
+                  value: _numberOfQuestions,
+                  onChanged: (value) => changeDropDownItem(value),
                 ),
                 Expanded(
                   child: Container(
@@ -62,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius:
                                 BorderRadius.all((Radius.circular((10.0)))),
                           ))),
-                      onPressed: () => print("Button is OK"),
+                      onPressed: () => startTestScreen(context),
                       label: Text("START"),
                       icon: Icon(Icons.skip_next),
                     ),
@@ -76,5 +107,20 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  changeDropDownItem(int value) {
+    setState(() {
+      _numberOfQuestions = value;
+    });
+  }
 
+  startTestScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+     //       builder: (context) =>
+      //          TestScreen(numberOfQuestions: _numberOfQuestions,
+          //          ))
+    builder:(context) => TestScreen(numberOfQuestions: _numberOfQuestions,)
+        ));
+  }
 }
