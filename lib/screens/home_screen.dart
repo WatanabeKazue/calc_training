@@ -63,11 +63,12 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Center(
             child: Column(
               children: <Widget>[
+
                 Image.asset("assets/images/image_title.png"),
-                SizedBox(
+                const SizedBox(
                   height: 15.0,
                 ),
-                Text(
+                const Text(
                   "問題数を選択して「スタート」ボタンを押してください。",
                   style: TextStyle(fontSize: 13.0),
                 ),
@@ -77,7 +78,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 DropdownButton(
                   items: _menuItem,
                   value: _numberOfQuestions,
-                  onChanged: (value) => changeDropDownItem(value),
+                  onChanged: (int selectedValue) {
+                    _numberOfQuestions = selectedValue;
+                  },
                 ),
                 Expanded(
                   child: Container(
@@ -117,10 +120,13 @@ class _HomeScreenState extends State<HomeScreen> {
     Navigator.push(
         context,
         MaterialPageRoute(
-     //       builder: (context) =>
-      //          TestScreen(numberOfQuestions: _numberOfQuestions,
-          //          ))
-    builder:(context) => TestScreen(numberOfQuestions: _numberOfQuestions,)
-        ));
+            //       builder: (context) =>
+            //          TestScreen(numberOfQuestions: _numberOfQuestions,
+            //          ))
+            builder: (context) => TestScreen(
+                  numberOfQuestions: _numberOfQuestions,
+                )));
   }
+
+
 }
