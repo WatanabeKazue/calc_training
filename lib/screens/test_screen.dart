@@ -24,7 +24,7 @@ class _TestScreenState extends State<TestScreen> {
   int questionLeft = 10;
   int questionRight = 5;
   String operator = "+";
-  String answerString = "5";
+  String answerString = "";
 
   bool isCalcButtonsEnabled;
   bool isAnswerCheckButtonEnabled;
@@ -129,11 +129,11 @@ class _TestScreenState extends State<TestScreen> {
               style: TextStyle(fontSize: 10.0),
             ),
             Text(
-              numberOfRemaining.toString(),
+              numberOfCorrect.toString(),
               style: TextStyle(fontSize: 10.0),
             ),
             Text(
-              numberOfRemaining.toString(),
+              correctRate.toString(),
               style: TextStyle(fontSize: 10.0),
             ),
           ],
@@ -226,7 +226,7 @@ class _TestScreenState extends State<TestScreen> {
       padding: const EdgeInsets.all(8.0),
       child: RaisedButton(
         color: Colors.brown,
-        onPressed: () => inputAnswer(answerString), //TODO
+        onPressed: () => inputAnswer(numString), //TODO
         child: Text(
           numString,
           style: TextStyle(fontSize: 24.0),
@@ -314,20 +314,20 @@ class _TestScreenState extends State<TestScreen> {
     }
   }
 
-  inputAnswer(
-    String numString,
-  ) {
+  inputAnswer(String numString) {
+    //早期リターンを使う場合
     setState(() {
       if (numString == "C") {
         answerString = "";
         return;
       }
       if (numString == "-") {
-        if (answerString == "-") answerString = "-";
+        if (answerString == "") answerString = "-";
         return;
       }
-      if (numString != "0" && answerString != "-") {
-        answerString = answerString + numString;
+      if (numString == "0") {
+        if (answerString != "0" && answerString != "-")
+          answerString = answerString + numString;
         return;
       }
       if (answerString == "0") {
@@ -335,18 +335,6 @@ class _TestScreenState extends State<TestScreen> {
         return;
       }
       answerString = answerString + numString;
-
-      setState(() {
-        if (numString == "C") {
-          answerString = "";
-        } else if (numString == "-") {
-          if (answerString == "") answerString = "-";
-        } else if (numString == "0") {}
-        if (answerString != "0" && answerString != "-") {
-          answerString = answerString + numString;
-        } else if (answerString == "") {}
-      });
-
     });
   }
 }
