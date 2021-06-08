@@ -24,7 +24,7 @@ class _TestScreenState extends State<TestScreen> {
   int questionLeft = 10;
   int questionRight = 5;
   String operator = "+";
-  String answerString = "";
+  String answerString = "0";
 
   bool isCalcButtonsEnabled = false;
   bool isAnswerCheckButtonEnabled = false;
@@ -277,7 +277,7 @@ class _TestScreenState extends State<TestScreen> {
   //TODO 〇・バツ画像
   Widget _correctIncorrectImage() {
     if (isCorrectInCorrectImageEnabled == true) {
-      if (isCorrect)
+      if (isCorrect){
         return Center(child: Image.asset("assets/images/pic_correct.png"));
     }
         return Center(child: Image.asset("assets/images/pic_incorrect.png"));
@@ -336,7 +336,6 @@ class _TestScreenState extends State<TestScreen> {
       }
       if (answerString == "0") {
         answerString = numString;
-        return;
       }
       answerString = answerString + numString;
     });
