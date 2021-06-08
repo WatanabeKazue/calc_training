@@ -20,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void setMenuItems() {
-    //TODO 明日はここから
     _menuItem.add(DropdownMenuItem(
       value: 10,
       child: Text(10.toString()),
@@ -33,20 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
       value: 30,
       child: Text(30.toString()),
     ));
-
-    // _menuItem
-    //   ..add(DropdownMenuItem(
-    //     value: 10,
-    //     child: Text(10.toString()),
-    //   ))
-    //   ..add(DropdownMenuItem(
-    //     value: 20,
-    //     child: Text(20.toString()),
-    //   ))
-    //   ..add(DropdownMenuItem(
-    //     value: 30,
-    //     child: Text(30.toString()),
-    //   ));
   }
 
   @override
@@ -63,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Center(
             child: Column(
               children: <Widget>[
-
                 Image.asset("assets/images/image_title.png"),
                 const SizedBox(
                   height: 15.0,
@@ -80,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   value: _numberOfQuestions,
                   onChanged: (int selectedValue) {
                     _numberOfQuestions = selectedValue;
+                    changeDropDownItem(_numberOfQuestions);
                   },
                 ),
                 Expanded(
@@ -127,6 +112,4 @@ class _HomeScreenState extends State<HomeScreen> {
                   numberOfQuestions: _numberOfQuestions,
                 )));
   }
-
-
 }
