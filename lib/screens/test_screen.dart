@@ -26,11 +26,12 @@ class _TestScreenState extends State<TestScreen> {
   String operator = "+";
   String answerString = "";
 
-  bool isCalcButtonsEnabled;
-  bool isAnswerCheckButtonEnabled;
-  bool isBackButtonEnabled;
-  bool isCorrectInCorrectImageEnabled;
-  bool isEndMessageEnabled;
+  bool isCalcButtonsEnabled = false;
+  bool isAnswerCheckButtonEnabled = false;
+  bool isBackButtonEnabled = false;
+  bool isCorrectInCorrectImageEnabled = false;
+  bool isEndMessageEnabled = false;
+  bool isCorrect = false;
 
   Soundpool soundpool;
 
@@ -175,7 +176,7 @@ class _TestScreenState extends State<TestScreen> {
           Expanded(
               flex: 1,
               child:
-                  Center(child: Text("=", style: TextStyle(fontSize: 30.0)))),
+              Center(child: Text("=", style: TextStyle(fontSize: 30.0)))),
           Expanded(
               flex: 3,
               child: Center(
@@ -243,7 +244,7 @@ class _TestScreenState extends State<TestScreen> {
         width: double.infinity,
         child: RaisedButton(
           color: Colors.cyanAccent,
-          onPressed: null,
+          onPressed: answerCheck(),
           child: Text(
             "こたえあわせ",
             style: TextStyle(fontSize: 14.0),
@@ -275,8 +276,11 @@ class _TestScreenState extends State<TestScreen> {
 
   //TODO 〇・バツ画像
   Widget _correctIncorrectImage() {
-    if (isCorrectInCorrectImageEnabled) {
-      return Center(child: Image.asset("assets/images/pic_correct.png"));
+    if (isCorrectInCorrectImageEnabled == true) {
+      if (isCorrect)
+        return Center(child: Image.asset("assets/images/pic_correct.png"));
+    }
+        return Center(child: Image.asset("assets/images/pic_incorrect.png"));
     } else {
       return Container();
     }
@@ -287,9 +291,9 @@ class _TestScreenState extends State<TestScreen> {
     if (isEndMessageEnabled) {
       return Center(
           child: Text(
-        "テスト終了",
-        style: TextStyle(fontSize: 50.0),
-      ));
+            "テスト終了",
+            style: TextStyle(fontSize: 50.0),
+          ));
     } else {
       return Container();
     }
@@ -336,5 +340,32 @@ class _TestScreenState extends State<TestScreen> {
       }
       answerString = answerString + numString;
     });
+  }
+
+  answerCheck() {
+    if (answerString == "" || answerString == "-") {
+      return;
+    }
+    isCalcButtonsEnabled = false;
+    isAnswerCheckButtonEnabled = false;
+    isBackButtonEnabled = false;
+    isCorrectInCorrectImageEnabled = true;
+    isEndMessageEnabled = false;
+
+    var myAnswer = int.parse(answerString).toInt();
+    var realAnswer = 0;
+    if (operator == "+") {
+      realAnswer = questionLeft + questionRight;
+    } else {
+      realAnswer = questionLeft - questionRight;
+    }
+
+    if (myAnswer == realAnswer) {
+
+    } else {
+
+    }
+
+    setState(() {});
   }
 }
