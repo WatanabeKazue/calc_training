@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
@@ -244,7 +245,7 @@ class _TestScreenState extends State<TestScreen> {
         width: double.infinity,
         child: RaisedButton(
           color: Colors.cyanAccent,
-          onPressed: answerCheck(),
+          onPressed: isCalcButtonsEnabled ? () => answerCheck(): null,
           child: Text(
             "こたえあわせ",
             style: TextStyle(fontSize: 14.0),
@@ -263,7 +264,7 @@ class _TestScreenState extends State<TestScreen> {
           width: double.infinity,
           child: RaisedButton(
             color: Colors.brown,
-            onPressed: null,
+            onPressed: isBackButtonEnabled ? () => closeTestScreen() : null,
             child: Text(
               "もどる",
               style: TextStyle(fontSize: 14.0),
@@ -277,7 +278,7 @@ class _TestScreenState extends State<TestScreen> {
   //TODO 〇・バツ画像
   Widget _correctIncorrectImage() {
     if (isCorrectInCorrectImageEnabled == true) {
-      if (isCorrect)
+      if (isCorrect){
         return Center(child: Image.asset("assets/images/pic_correct.png"));
     }
         return Center(child: Image.asset("assets/images/pic_incorrect.png"));
@@ -306,6 +307,8 @@ class _TestScreenState extends State<TestScreen> {
     isBackButtonEnabled = false;
     isCorrectInCorrectImageEnabled = false;
     isEndMessageEnabled = false;
+    isCorrect = false;
+    answerString = "";
 
     Random random = Random();
     questionLeft = random.nextInt(100) + 1;
@@ -361,11 +364,32 @@ class _TestScreenState extends State<TestScreen> {
     }
 
     if (myAnswer == realAnswer) {
-
+      isCorrect = true;
+      soundpool.play(soundIdCorrect);
+      numberOfCorrect += 1;
     } else {
+      isCorrect = false;
+      soundpool.play(soundIdCorrect);
+    }
 
+    correctRate = (numberOfCorrect / (widget.numberOfQuestions - numberOfRemaining) * 100).toInt();
+
+    if(numberOfRemaining == 0){
+     //TODO 残り問題数がないとき～
+      isCalcButtonsEnabled = false;
+      isAnswerCheckButtonEnabled = false;
+      isBackButtonEnabled = true;
+      isCorrectInCorrectImageEnabled = true;
+      isEndMessageEnabled = true;
+    } else {
+      //TODO 残り問題数があるとき～
+      Timer(Duration(seconds: 1),() => setQuestion());
     }
 
     setState(() {});
+  }
+
+  closeTestScreen() {
+    Navigator.pop(context);
   }
 }
